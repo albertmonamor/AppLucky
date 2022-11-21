@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="app for lotteries">
+    <meta name="author" content="avi s., 2022 all right reversed">
+    <link rel="stylesheet" href="static/styles/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=DynaPuff&display=swap" rel="stylesheet">
+    <!--fonts-->
+    <script src="https://kit.fontawesome.com/11e3bcf364.js" crossorigin="anonymous"></script>
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" src="static/styles/style.css">
+
+  </head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light nav_bar">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon collapse_style" ></span>
+      </button>
+      <span class="title" href="#join">AppLucky</span>
+    
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+           <a class="nav-link item_menu font-1" href="#" id="get_started"><span id="icon_started" class="fa-solid fa-play" style="padding-right: 10px;"></span>get started<span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="welcome">
+      <br><br><br><br>
+      <h1 class="display-3">מהו האירוע שלך ?</h1>
+      <br><br><br>
+      <div class="wel">
+        <div class="wel-item">
+          <!--TODO # hot event-->
+          <div class="active-event">hello hello hello hello </div>
+          <!--ALPHA-->
+          <div class="wel-body">
+            <h1>אלפא</h1>
+            <p>
+              <span class="name">אירוע אלפא.</span> הסיכוי לזכות בהגרלה הוא 1 מתוך כמות המשתתפים, כמו כן שווי הפרס<br> 
+            </p>
+            <br>
+            <div class="option">
+              <p><i class="fa-solid fa-dice"></i>
+                סיכוי הזכייה <span>1:1000</span>
+              </p>
+              <p><i class="fa-solid fa-gift"></i>
+                פרס כספי <span>ככמות המשתתפים</span>
+              </p>
+              <p><i class="fa-solid fa-coins"></i>
+                סכום להשתתפות <span>10₪</span>
+              </p>
+              <p><i class="fa-solid fa-people-group"></i> 
+                עד <span>1000</span> אנשים באירוע
+              </p>
+              <p><i class="fa-solid fa-stopwatch"></i> 
+                <span>שבעה ימים </span> לכל אירוע
+              </p>
+              <button type="button" class="abutton" onclick="enterToEvent(this)" name="1">
+                <span>להשתתפות</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="wel-item"> 
+          <!--RASTA-->
+          <div class="wel-body">
+            <h1>ראסטה</h1>
+            <p>
+              <span class="name">אירוע ראסטה.</span> הסיכוי לזכות בהגרלה הוא 1 מתוך כמות המשתתפים, כמו כן שווי הפרס<br> 
+            </p>
+            <br>
+            <div class="option">
+              <p><i class="fa-solid fa-dice"></i>
+                סיכוי הזכייה <span>1:500</span>
+              </p>
+              <p><i class="fa-solid fa-gift"></i>
+                פרס כספי <span>ככמות המשתתפים</span>
+              </p>
+              <p><i class="fa-solid fa-coins"></i>
+                סכום להשתתפות <span>10₪</span>
+              </p>
+              <p><i class="fa-solid fa-people-group"></i> 
+                עד <span>500</span> אנשים באירוע
+              </p>
+              <p><i class="fa-solid fa-stopwatch"></i> 
+                <span>ארבעה ימים </span> לכל אירוע
+              </p>
+              <button type="button"  class="abutton" onclick="enterToEvent(this)" name="2">
+                <span>להשתתפות</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="wel-item">
+          <!--HERTUT-->
+          <div class="wel-body">
+            <h1>פרודקט</h1>
+            <p>
+              <span class="name" >אירוע פרודקט.</span> הסיכוי לזכות בהגרלה הוא 1 ככמות המשתתפים, כמו כן שווי הפרס<br> 
+            </p>
+            <br>
+            <div class="option">
+              <p><i class="fa-solid fa-dice"></i>
+                סיכוי הזכייה <span>1:500</span>
+              </p>
+              <p><i class="fa-solid fa-gift"></i>
+                פרס כספי <span>מוצר בשווי הזכייה </span>
+              </p>
+              <p><i class="fa-solid fa-coins"></i>
+                סכום להשתתפות <span>10₪</span>
+              </p>
+              <p><i class="fa-solid fa-people-group"></i> 
+                עד <span>500</span> אנשים באירוע
+              </p>
+              <p><i class="fa-solid fa-stopwatch"></i> 
+                <span>שבעה ימים </span> לכל אירוע
+              </p>
+              <button type="button" class="abutton" onclick="enterToEvent(this)" name="3">
+                <span>להשתתפות</span>
+
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>
+        כל הזכויות שמורות &copy; 
+        ל
+        <span id="name">AppLucky</span>
+      </span>
+    </div>
+
+  </body>
+  <script>
+    var x = 0
+      $("#get_started").click(function(){
+        document.getElementById("icon_started").className = "fa-solid fa-pause";
+
+        setTimeout(() => {
+          document.getElementById("icon_started").className = "fa-solid fa-play";
+        }, 2000);
+ 
+      });
+  </script>
+  <script src="static/js/req.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</html>
