@@ -1,7 +1,7 @@
 import binascii
 import os
-import enum
-from time import time
+
+
 FILE_NAME_DB: str = "AppLucky.db"
 SESSION: dict = {}
 SESSION_ANON: callable = lambda: binascii.b2a_hex(os.urandom(12)).decode()

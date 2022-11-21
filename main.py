@@ -1,7 +1,7 @@
 import http
 import time
 from flask import *
-from time import ctime
+from time import ctime, sleep
 from flask_sqlalchemy import SQLAlchemy
 
 from Api.func_api import getPage, titleEventTime
@@ -22,6 +22,10 @@ def setEvent(**kwargs):
     DBase.session.add(new_event)
     DBase.session.commit()
 
+
+def runnerEvents():
+    while True:
+        sleep(1)
 
 class EventsLucky(DBase.Model):
     __tablename__ = 'Events'
@@ -221,7 +225,7 @@ def Events():
     page: str = getPage(name_event)
     if not page: return jsonify({"success": False, "page": page, "des": None})
     # /* query db */
-    event = EventsLucky.query.filter_by(page).first()
+    event = EventsLucky.query.filter_by(event_name=page).first()
     if event.open:
         return jsonify({"success": True, "page": page, "des": "open"})
     else:
@@ -272,6 +276,7 @@ def Console():
 if __name__ == "__main__":  # // localdick!
     with mainApp.app_context():
         DBase.create_all()
+        # /* CONFIGURATion on first time */
         if not EventsLucky.query.all():
             setEvent(event_name="rasta", event_start=time(), event_end=time() + EManager.rasta_time)
             setEvent(event_name="alpha", event_start=time(), event_end=time() + EManager.alpha_time)
