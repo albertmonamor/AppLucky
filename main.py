@@ -1,7 +1,7 @@
 import http
 import time
 from flask import *
-from time import ctime, sleep
+from time import ctime, sleep, time
 from flask_sqlalchemy import SQLAlchemy
 
 from Api.func_api import getPage, titleEventTime
@@ -23,9 +23,13 @@ def setEvent(**kwargs):
     DBase.session.commit()
 
 
-def runnerEvents():
+def controllerEvents():
     while True:
         sleep(1)
+        for event in EventsLucky.query.all():
+            if not titleEventTime(event.event_start, event.event_end)[1]:
+                event.open = False  # !!
+
 
 class EventsLucky(DBase.Model):
     __tablename__ = 'Events'
@@ -210,10 +214,11 @@ def UpFile():
 
 
 @mainApp.route("/", methods=['GET', 'POST'])
-@mainApp.route("/index")
+@mainApp.route("/index", methods=['GET', 'POST'])
+@mainApp.route("/home", methods=['GET', 'POST'])
 def Index():
     res = make_response(render_template("index.html"))
-    res.set_cookie(key="anonymous", value=SESSION_ANON())
+    res.set_cookie(key="anonymous", value=SESSION_ANON(), httponly=True)
     res.headers['AppLucky'] = "IKWAYDoing!"
     return res
 
@@ -253,7 +258,8 @@ def TimerEvent():
 @mainApp.route("/rasta", methods=["GET"])
 def Rasta():
     if not request.cookies.get('anonymous'): return redirect(url_for("Index"))
-    return render_template('rasta.html', event="rasta")
+    register = session.get('user') and not request.cookies.get("anonymous")
+    return render_template('rasta.html', event="rasta", register=register)
 
 
 @mainApp.route("/alpha", methods=["GET"])

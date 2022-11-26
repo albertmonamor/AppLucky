@@ -97,7 +97,7 @@
   cursor: pointer;
   padding: 5px;
   font-size: 18px;
-  transition: font-size 200ms, width 500ms,  background 400ms, color 600ms;
+  transition: all 400ms;
 
 }
 .abutton:hover{
@@ -207,12 +207,11 @@
 }
 
 .footer{
+  background: transparent;
   margin: 50px 1px 1px 1px !important;
-}
-
-.footer{
   font-family: 'DynaPuff' !important;
 }
+
 .footer span{
   font-size:20px;
   font-weight: bold;
@@ -250,6 +249,9 @@
 
 .event-body-r{
   background: linear-gradient(rgb(255, 250, 187), rgb(35, 117, 106));
+  text-align: center;
+  direction: rtl;
+
 }
 
 .event-body-r div p{
@@ -352,4 +354,21 @@
   letter-spacing: .05em;
   line-height: 1.2;
 
+}
+
+.cal-join{
+  margin-top: 40px;
+  direction: rtl;
+
+}
+.cal-join .abutton{
+  width: 50%;
+  color:#000000;
+}
+.cal-join .abutton:hover{
+  width: 55%;
+  font-size:20px;
+  font-weight: 600;
+  color:#ffffff;
+  background:#784aac;
 }

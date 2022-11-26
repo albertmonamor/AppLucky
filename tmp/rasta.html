@@ -62,8 +62,24 @@
               </span>
 
             </div>
+            <div class="cal-join">
+              <button type="button" class="abutton" onclick="alert(0)" name="3">
+                {% if not register %}
+                <span>התחל!</span>
+                {% else %}
+                <span>מידע על האירוע</span>
+                {% endif %}
+              </button>
+            </div>
           </div>
         </div>
+        <div class="footer">
+          <span>
+            כל הזכויות שמורות &copy; 
+            ל
+            <span id="name">AppLucky</span>
+          </span>
+        </div> 
     </div>
   </body>
   <script src="static/js/req.js"></script>
