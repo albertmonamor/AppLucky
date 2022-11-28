@@ -1,4 +1,19 @@
 
+function RequestPost(json) {
+    var data;
+    $.ajax({
+      url: "/events",
+      async: false, 
+      //very important: else php_data will be returned even before we get Json from the url
+      type: 'POST',
+      data:json,
+      success: function (res) {
+        data = res;
+      }
+    });
+    return data;
+}
+
 
 var x = 0;
 function enterToEvent(_this){
@@ -85,5 +100,21 @@ function deleteBefore(){
 function setTitle(title){
     var x = document.getElementsByClassName("cal-title");
     x[0].innerText = title;
-    console.log(title);
+    // console.log(title);
+}
+
+function openEventData(_this){
+    var _html = "<br><br><br><br><h1>hello></h1>"
+    _this.remove()
+}
+
+
+function openRegister(_this){
+    // ajax to get html from server 
+    var _html = "<h1>hello</h1>";
+    var parent = _this.parentElement;
+    // remove button
+    _this.remove();
+    // append html
+    parent.innerHTML += _html;
 }

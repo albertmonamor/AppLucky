@@ -62,14 +62,16 @@
               </span>
 
             </div>
-            <div class="cal-join">
-              <button type="button" class="abutton" onclick="alert(0)" name="3">
-                {% if not register %}
+            <div class="cal-join-data">
+              {% if not register %}
+              <button type="button" class="abutton" onclick="openRegister(this)" name="3">
                 <span>התחל!</span>
-                {% else %}
-                <span>מידע על האירוע</span>
-                {% endif %}
               </button>
+              {% else %}
+              <button type="button" class="abutton" onclick="openEventData(this)" name="3">
+                <span>מידע על האירוע</span>
+              </button>
+              {% endif %}
             </div>
           </div>
         </div>

@@ -225,6 +225,7 @@ def Index():
 
 @mainApp.route("/events", methods=['POST'])
 def Events():
+    sleep(2)
     name_event = request.form.get('name')
     # /* verify requests 'name' */
     page: str = getPage(name_event)

@@ -356,16 +356,16 @@
 
 }
 
-.cal-join{
+.cal-join-data{
   margin-top: 40px;
   direction: rtl;
 
 }
-.cal-join .abutton{
+.cal-join-data .abutton{
   width: 50%;
   color:#000000;
 }
-.cal-join .abutton:hover{
+.cal-join-data .abutton:hover{
   width: 55%;
   font-size:20px;
   font-weight: 600;
