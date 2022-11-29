@@ -1,8 +1,8 @@
 
-function RequestPost(json) {
+function RequestPost(url, json) {
     var data;
     $.ajax({
-      url: "/events",
+      url: url,
       async: false, 
       //very important: else php_data will be returned even before we get Json from the url
       type: 'POST',
@@ -104,14 +104,16 @@ function setTitle(title){
 }
 
 function openEventData(_this){
-    var _html = "<br><br><br><br><h1>hello></h1>"
+    var _html = RequestPost('/eventhtml', {'type':1})
+    var parent = _this.parentElement;
     _this.remove()
+    parent.innerHTML += _html; 
 }
 
 
-function openRegister(_this){
+async function openRegister(_this){
     // ajax to get html from server 
-    var _html = "<h1>hello</h1>";
+    var _html = await RequestPost("/eventhtml", {"type": 2})
     var parent = _this.parentElement;
     // remove button
     _this.remove();

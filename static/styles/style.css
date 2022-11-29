@@ -336,6 +336,12 @@
   color: transparent;
 
 }
+
+@media screen and (max-width:526px) {
+  .c-amount{
+    font-size: 60px;
+  }
+}
 .c-amount::after{
   top: 0;
   content: ':';
@@ -371,4 +377,32 @@
   font-weight: 600;
   color:#ffffff;
   background:#784aac;
+}
+
+.register{
+  display: flex;
+  flex-direction: column;
+  padding: 25px 0 25px 0;
+  align-items: center;
+  background:linear-gradient( rgb(246, 255, 252), rgb(236, 231, 231));
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 4px 49px 0 rgb(193, 193, 193);
+
+}
+.register .abutton{
+  width: 30%;
+  border-radius: 6px;
+  
+}
+.register .abutton:hover{
+  width: 40%
+}
+
+.ainput{
+  border-color: #6711a3;
+  border-radius: 5px;
+  width: 60%;
+  font-weight: bold;
+  font-size: 18px;
+  height: 40px;
 }

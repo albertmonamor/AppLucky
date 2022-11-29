@@ -213,16 +213,7 @@ def UpFile():
 #     return jsonify({"stat":"OK"})
 
 
-@mainApp.route("/", methods=['GET', 'POST'])
-@mainApp.route("/index", methods=['GET', 'POST'])
-@mainApp.route("/home", methods=['GET', 'POST'])
-def Index():
-    res = make_response(render_template("index.html"))
-    res.set_cookie(key="anonymous", value=SESSION_ANON(), httponly=True)
-    res.headers['AppLucky'] = "IKWAYDoing!"
-    return res
-
-
+# /* API REQUEST */
 @mainApp.route("/events", methods=['POST'])
 def Events():
     sleep(2)
@@ -239,12 +230,12 @@ def Events():
                         "des": DES_EVENT_CLOSED.format(en=page, eo=ctime(float(event.will_open)))})
 
 
-# /* PAGE EVENTS */
+# /* API REQUEST */
 @mainApp.route("/timer_event", methods=['POST'])
 def TimerEvent():
     n_event = request.form.get("event")
     event_time_s: int = time()
-    event_time_e: int = time()+100
+    event_time_e: int = time()+10
     if not n_event: return jsonify({"success": False})
     if n_event == EManager.alpha:
         pass
@@ -256,10 +247,38 @@ def TimerEvent():
                     "title_event": titleEventTime(event_time_s, event_time_e)[0]})
 
 
+# /* API REQUEST */
+@mainApp.route("/eventhtml", methods=['POST'])
+def eventData():
+    file: str = ""
+    if request.cookies.get("anonymous"):  # and session.get('player'):
+        if request.form.get("type") == '1':
+            file = "./tmp/event_data.html"
+        elif request.form.get("type") == '2':
+            file = "./tmp/event_data.html"
+        else:
+            return render_template_string("<h1>none</h1>")
+
+        stream: ... = open(file, "r", encoding='utf-8')
+        html: str = stream.read()
+        stream.close()
+        return render_template_string(html)
+
+
+@mainApp.route("/", methods=['GET', 'POST'])
+@mainApp.route("/index", methods=['GET', 'POST'])
+@mainApp.route("/home", methods=['GET', 'POST'])
+def Index():
+    res = make_response(render_template("index.html"))
+    res.set_cookie(key="anonymous", value=SESSION_ANON(), httponly=True)
+    res.headers['AppLucky'] = "IKWAYDoing!"
+    return res
+
+
 @mainApp.route("/rasta", methods=["GET"])
 def Rasta():
     if not request.cookies.get('anonymous'): return redirect(url_for("Index"))
-    register = session.get('user') and not request.cookies.get("anonymous")
+    register = session.get('player') and not request.cookies.get("anonymous")
     return render_template('rasta.html', event="rasta", register=register)
 
 
