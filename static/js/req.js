@@ -4,7 +4,6 @@ function RequestPost(url, json) {
     $.ajax({
       url: url,
       async: false, 
-      //very important: else php_data will be returned even before we get Json from the url
       type: 'POST',
       data:json,
       success: function (res) {
@@ -19,14 +18,7 @@ var x = 0;
 function enterToEvent(_this){
     /* UI */
     if (!x){
-        
-        console.log(_this.name);
-        _this.children[0].remove();
-        cntr = document.createElement("center");
-        dv = document.createElement("div");
-        dv.className = "loading";
-        cntr.append(dv);
-        _this.appendChild(cntr);
+        loading(_this)
         x=1;
     }
     $.ajax({
@@ -111,12 +103,77 @@ function openEventData(_this){
 }
 
 
-async function openRegister(_this){
+function openRegister(_this){
+     loading(_this)
     // ajax to get html from server 
-    var _html = await RequestPost("/eventhtml", {"type": 2})
+    var _html = RequestPost("/eventhtml", {"type": 2})
     var parent = _this.parentElement;
     // remove button
     _this.remove();
     // append html
     parent.innerHTML += _html;
 }
+
+function openRegisterLvl1(_this){
+    // get values from inputs 
+    parent = _this.parentElement
+    parent2 = parent.parentElement
+    // loading
+    loading(_this);
+    // ajax request: json, post
+    $.ajax({
+      url: "/register_event",
+      type: 'POST',
+      data:{'name': parent.children[0x0].value,
+            'phone': parent.children[0x2].value,
+            'id': parent.children[0x4].value,
+            'lvl':1},
+      success: function (res) {
+        if (res.success){
+            // clear parent from element
+            parent2.innerHTML = "";
+            // request
+            var _html = RequestPost("/eventhtml", {"type": 3});
+            parent2.innerHTML += _html;
+
+        }
+        else{
+            alert("אחד הפרטים או יותר שגוי");
+            unloading(_this, "המשך");
+        }
+      }
+    });
+    
+    
+}
+function openRegisterLvl2(parent){
+    $(parent).fadeOut(500);
+    // async callback
+    // setTimeout(()=>{ parent.innerHTML="";$(parent).fadeIn(1)}, 500)
+    parent.innerHTML="";
+    $.ajax({
+        url:"/register_event",
+        type:"POST",
+        data:null
+    })  
+
+}
+
+
+function loading(_this){
+    _this.children[0].remove();
+    cntr = document.createElement("center");
+    dv = document.createElement("div");
+    dv.className = "loading";
+    cntr.append(dv);
+    _this.appendChild(cntr);
+}
+
+
+function unloading(_this, text){
+    _this.children[0].remove();
+    span = document.createElement("span");
+    span.innerText = text
+    _this.appendChild(span);
+}
+

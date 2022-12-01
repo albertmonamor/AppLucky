@@ -1,10 +1,12 @@
 import http
 import time
+from typing import TextIO
+
 from flask import *
 from time import ctime, sleep, time
 from flask_sqlalchemy import SQLAlchemy
 
-from Api.func_api import getPage, titleEventTime
+from Api.func_api import getPage, titleEventTime, idValid
 from Api.manager import *
 
 
@@ -213,10 +215,9 @@ def UpFile():
 #     return jsonify({"stat":"OK"})
 
 
-# /* API REQUEST */
+# /* API REQUEST: JSON */
 @mainApp.route("/events", methods=['POST'])
 def Events():
-    sleep(2)
     name_event = request.form.get('name')
     # /* verify requests 'name' */
     page: str = getPage(name_event)
@@ -230,12 +231,12 @@ def Events():
                         "des": DES_EVENT_CLOSED.format(en=page, eo=ctime(float(event.will_open)))})
 
 
-# /* API REQUEST */
+# /* API REQUEST: JSON */
 @mainApp.route("/timer_event", methods=['POST'])
 def TimerEvent():
     n_event = request.form.get("event")
     event_time_s: int = time()
-    event_time_e: int = time()+10
+    event_time_e: int = time()+10000
     if not n_event: return jsonify({"success": False})
     if n_event == EManager.alpha:
         pass
@@ -247,22 +248,47 @@ def TimerEvent():
                     "title_event": titleEventTime(event_time_s, event_time_e)[0]})
 
 
-# /* API REQUEST */
+# /* API REQUEST: TEXT/HTML */
 @mainApp.route("/eventhtml", methods=['POST'])
 def eventData():
     file: str = ""
     if request.cookies.get("anonymous"):  # and session.get('player'):
         if request.form.get("type") == '1':
-            file = "./tmp/event_data.html"
+            file = "tmp/ltmp/event_registerL1.html"
         elif request.form.get("type") == '2':
-            file = "./tmp/event_data.html"
+            file = "tmp/ltmp/event_registerL1.html"
+        elif request.form.get("type") == '3':
+            file = "tmp/ltmp/event_registerL2.html"
         else:
             return render_template_string("<h1>none</h1>")
 
-        stream: ... = open(file, "r", encoding='utf-8')
+        stream: TextIO = open(file, "r", encoding='utf-8')
         html: str = stream.read()
         stream.close()
         return render_template_string(html)
+
+
+# /* API REQUEST: JSON */
+@mainApp.route("/register_event", methods=['POST'])
+def RegisterEvent():
+    lvl: str = request.form.get("lvl")
+    if lvl == "1":
+        # /* get from json request */
+        name: str = request.form.get('name')
+        phone: str = request.form.get('phone')
+        _id: str = request.form.get("id")
+        # /* verify */
+        if not (name and phone and _id) or not (name.__len__() > 6 and phone.__len__() == 10 and idValid(_id)):
+            return jsonify({"success": False})
+    elif lvl == "2":
+        pass
+    else:
+        # /* wtf with the request */
+        return jsonify({"success": False})
+
+    # TODO: save on db, create session
+    # /* success */
+    return jsonify({"success": True})
 
 
 @mainApp.route("/", methods=['GET', 'POST'])

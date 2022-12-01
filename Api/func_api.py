@@ -26,3 +26,18 @@ def getPage(name_event: str) -> str:
     # return None
 
 
+def idValid(_id: str):
+
+    if _id.__len__() > 9 or not _id.isdigit():
+        return 0
+
+    size_of_id = 0
+    for index, number in enumerate(_id):
+        num_id = int(number)
+        result = str(num_id * ((index % 2)+1))
+        if result.__len__() % 2 == 0:
+            result = str(int(result[0])+int(result[1]))
+        size_of_id += int(result)
+
+    return size_of_id % 10 == 0
+
