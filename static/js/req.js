@@ -104,7 +104,7 @@ function openEventData(_this){
 
 
 function openRegister(_this){
-     loading(_this)
+     loading(_this);
     // ajax to get html from server 
     var _html = RequestPost("/eventhtml", {"type": 2})
     var parent = _this.parentElement;
@@ -133,7 +133,7 @@ function openRegisterLvl1(_this){
             // clear parent from element
             parent2.innerHTML = "";
             // request
-            var _html = RequestPost("/eventhtml", {"type": 3});
+            var _html = RequestPost("/eventhtml", {"type": 3, "event":parent.children[0x0].name});
             parent2.innerHTML += _html;
 
         }

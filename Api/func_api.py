@@ -1,6 +1,6 @@
 from Api.manager import EManager
 
-DAY:float = 3600*24
+DAY: float = 3600*24
 
 
 def titleEventTime(time_s: float, time_e) -> tuple[str, bool]:

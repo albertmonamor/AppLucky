@@ -248,7 +248,7 @@
 /* EVENTS STYLESHEET */
 
 .event-body-r{
-  background: linear-gradient(rgb(255, 250, 187), rgb(35, 117, 106));
+  background: linear-gradient(#f1fbff, rgb(35, 117, 106));
   text-align: center;
   direction: rtl;
 
@@ -268,7 +268,6 @@
 }
 
 .cal-body{
-  background: rgb(255, 225, 160);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   direction: rtl;
@@ -276,7 +275,7 @@
   margin-left: auto;
 	margin-right: auto;
 	padding: 40px 20px 30px;
-	background: #ffffff;
+	background: #f1fbff;
 	border-radius: 0 0 20px 20px;
 	box-shadow: 0 4px 40px rgba(21, 21, 21, 0.25);
 }
@@ -292,7 +291,7 @@
   font-weight: 500;
 }
 .time-event{
-  background: rgb(255, 255, 253);
+  background: #f1fbff;
   border-radius: 0 40px 0 40px;
   direction: ltr;
   display: flex;
@@ -380,7 +379,7 @@
 }
 
 .register{
-  background:linear-gradient(rgb(246, 255, 252), rgb(236, 231, 231));
+  background:linear-gradient(#f1fbff, rgb(237, 247, 255));
   border-radius: 20px 20px 0 0;
   box-shadow: 0 4px 49px 0 rgb(193, 193, 193);
 }
@@ -391,6 +390,16 @@
   align-items: center;
 }
 
+.register-body-row{
+  display: flex;
+  flex-direction: row;
+  padding: 25px 0 25px 0;
+  align-items: center;
+  justify-content: center;
+}
+.register-body-row > .checkbox{
+  margin-left: 15px;
+}
 .register .abutton{
   width: 30%;
   border-radius: 6px;
@@ -402,13 +411,15 @@
 
 .register > span{
   margin-top: 0px !important;
+  margin-right: 12px;
   padding: 0 12px 12px 12px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: black;
   color: white;
-  box-shadow: 0 4px 59px 0 rgb(0, 0, 0)!important;
+  box-shadow: 0 4px 39px 0 rgb(0, 0, 0)!important;
   font-weight: 600;
+  float: right;
 
 }
 
@@ -421,3 +432,10 @@
   height: 40px;
 }
 
+.checkbox{
+  filter: sepia(100%) brightness(80%) hue-rotate(170deg) saturate(80%) contrast(300%);
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  box-sizing: content-box;
+}

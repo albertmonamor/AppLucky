@@ -9,7 +9,6 @@ from flask_sqlalchemy import SQLAlchemy
 from Api.func_api import getPage, titleEventTime, idValid
 from Api.manager import *
 
-
 # /* configuration */
 mainApp = Flask(__name__, template_folder="tmp")
 mainApp.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{FILE_NAME_DB}"
@@ -19,9 +18,31 @@ DBase = SQLAlchemy(mainApp)
 
 
 # /* DATABASES - FUNCTION */
-def setEvent(**kwargs):
+def appendEvent(**kwargs):
     new_event = EventsLucky(**kwargs)
     DBase.session.add(new_event)
+    DBase.session.commit()
+
+
+def updateEvent(**kwargs):
+    event = EventsLucky()
+    # /* NAME */
+    if kwargs.get('event_name'):
+        event.event_name = kwargs['event_name']
+    # /* START */
+    elif kwargs.get("event_start"):
+        event.event_start = kwargs['event_start']
+    # /* END */
+    elif kwargs.get("event_end"):
+        event.event_end = kwargs['event_end']
+    # /* OPEN */
+    elif isinstance(kwargs.get("open"), bool):
+        event.open = kwargs['open']
+    # /* WILL OPEN */
+    elif kwargs.get('will_open'):
+        event.will_open = kwargs['will_open']
+
+    # /* success: commit */
     DBase.session.commit()
 
 
@@ -44,6 +65,7 @@ class EventsLucky(DBase.Model):
 
     def __repr__(self):
         return "<Event %r>" % self.event_id
+
 
 #
 # # [!] CLASSES
@@ -145,7 +167,6 @@ class EventsLucky(DBase.Model):
 
 @mainApp.route("/dvir", methods=['GET'])
 def DvirProducation():
-
     return render_template('index.html')
 
 
@@ -190,31 +211,6 @@ def UpFile():
     return "", 201
 
 
-# @mainApp.route("/1GET", methods=['GET', 'POST'])
-# def prox():
-#     if request.method == "GET":
-#         data1 = request.args.get("p1")
-#         ok = ProxRequest(url=data1)
-#         DBase.session.add(ok)
-#         DBase.session.commit()
-#
-#     return jsonify({"stat":"ok"})
-
-
-# @mainApp.route("/proxData", methods=["POST"])
-# def GetProx():
-#     return jsonify({"data":[x.url for x in ProxRequest.query.all()]})
-#
-# #
-# @mainApp.route("/clearprox", methods=['GET', 'POST'])
-# def ClearProx():
-#     for x in ProxRequest.query.all():
-#         DBase.session.delete(x)
-#         DBase.session.commit()
-#
-#     return jsonify({"stat":"OK"})
-
-
 # /* API REQUEST: JSON */
 @mainApp.route("/events", methods=['POST'])
 def Events():
@@ -236,7 +232,7 @@ def Events():
 def TimerEvent():
     n_event = request.form.get("event")
     event_time_s: int = time()
-    event_time_e: int = time()+10000
+    event_time_e: int = time() + 10000
     if not n_event: return jsonify({"success": False})
     if n_event == EManager.alpha:
         pass
@@ -251,21 +247,19 @@ def TimerEvent():
 # /* API REQUEST: TEXT/HTML */
 @mainApp.route("/eventhtml", methods=['POST'])
 def eventData():
-    file: str = ""
-    if request.cookies.get("anonymous"):  # and session.get('player'):
+    tmp: str = ""
+    if request.cookies.get("anonymous") and request.cookies.get("for_event") and session.get('player'):
         if request.form.get("type") == '1':
-            file = "tmp/ltmp/event_registerL1.html"
+            tmp = ""
         elif request.form.get("type") == '2':
-            file = "tmp/ltmp/event_registerL1.html"
+            tmp = "ltmp/event_registerL1.html"
         elif request.form.get("type") == '3':
-            file = "tmp/ltmp/event_registerL2.html"
+            tmp = "ltmp/event_registerL2.html"
+
         else:
             return render_template_string("<h1>none</h1>")
 
-        stream: TextIO = open(file, "r", encoding='utf-8')
-        html: str = stream.read()
-        stream.close()
-        return render_template_string(html)
+        return render_template(tmp, event=request.cookies.get('for_event'))
 
 
 # /* API REQUEST: JSON */
@@ -278,7 +272,8 @@ def RegisterEvent():
         phone: str = request.form.get('phone')
         _id: str = request.form.get("id")
         # /* verify */
-        if not (name and phone and _id) or not (name.__len__() > 6 and phone.__len__() == 10 and idValid(_id)):
+        if 0 - 12 % 5 == 2:
+            # not (name and phone and _id) or not (name.__len__() > 6 and phone.__len__() == 10 and idValid(_id)):
             return jsonify({"success": False})
     elif lvl == "2":
         pass
@@ -291,6 +286,7 @@ def RegisterEvent():
     return jsonify({"success": True})
 
 
+# /* INDEXES: ALL */
 @mainApp.route("/", methods=['GET', 'POST'])
 @mainApp.route("/index", methods=['GET', 'POST'])
 @mainApp.route("/home", methods=['GET', 'POST'])
@@ -305,7 +301,9 @@ def Index():
 def Rasta():
     if not request.cookies.get('anonymous'): return redirect(url_for("Index"))
     register = session.get('player') and not request.cookies.get("anonymous")
-    return render_template('rasta.html', event="rasta", register=register)
+    res = make_response(render_template('rasta.html', event="rasta", register=register))
+    res.set_cookie(key='for_event', value='resta', httponly=True)
+    return res
 
 
 @mainApp.route("/alpha", methods=["GET"])
@@ -328,14 +326,10 @@ def Console():
 if __name__ == "__main__":  # // localdick!
     with mainApp.app_context():
         DBase.create_all()
-        # /* CONFIGURATion on first time */
+        # /* CONFIGURATion at a first time */
         if not EventsLucky.query.all():
-            setEvent(event_name="rasta", event_start=time(), event_end=time() + EManager.rasta_time)
-            setEvent(event_name="alpha", event_start=time(), event_end=time() + EManager.alpha_time)
-            setEvent(event_name="product", event_start=time(), event_end=time() + EManager.product_time)
+            appendEvent(event_name="rasta", event_start=time(), event_end=time() + EManager.rasta_time)
+            appendEvent(event_name="alpha", event_start=time(), event_end=time() + EManager.alpha_time)
+            appendEvent(event_name="product", event_start=time(), event_end=time() + EManager.product_time)
 
     mainApp.run(host="0.0.0.0", port=80, debug=True)
-
-
-
-

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>AppLucky | rasta</title>
+    <title>AppLucky | {{ event }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="app for lotteries">
@@ -63,10 +63,10 @@
               </span>
 
             </div>
-            <div class="cal-join-data">
+            <div class="cal-join-data" id="{{ event }}">
               {% if not register %}
               <button type="button" class="abutton" onclick="openRegister(this)" name="3">
-                <span>התחל!</span>
+                <span>הצטרף לאירוע!</span>
               </button>
               {% else %}
               <button type="button" class="abutton" onclick="openEventData(this)" name="3">
