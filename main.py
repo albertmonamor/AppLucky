@@ -58,10 +58,10 @@ class EventsLucky(DBase.Model):
     __tablename__ = 'Events'
     event_id = DBase.Column(DBase.Integer, primary_key=True)
     event_name = DBase.Column(DBase.String(20), nullable=False)
-    event_start = DBase.Column(DBase.String(100), nullable=False)
-    event_end = DBase.Column(DBase.String(100), nullable=False)
+    event_start = DBase.Column(DBase.Float, nullable=False)
+    event_end = DBase.Column(DBase.Float, nullable=False)
     open = DBase.Column(DBase.Boolean, unique=False, default=True)
-    will_open = DBase.Column(DBase.String(100), nullable=True, default=time())
+    will_open = DBase.Column(DBase.Float, nullable=True, default=time())
 
     def __repr__(self):
         return "<Event %r>" % self.event_id
@@ -87,24 +87,26 @@ def Events():
 @mainApp.route("/timer_event", methods=['POST'])
 def TimerEvent():
     n_event = request.form.get("event")
-    event_time_s: int = time()
-    event_time_e: int = time() + 10000
-    if not n_event: return jsonify({"success": False})
-    if n_event == EManager.alpha:
-        pass
-    elif n_event == EManager.rasta:
-        pass
-    elif n_event == EManager.product:
-        pass
-    return jsonify({"success": True, "event_time": ctime(event_time_e),
-                    "title_event": titleEventTime(event_time_s, event_time_e)[0]})
+    if not n_event:
+        return jsonify({"success": False})
+    if n_event == "rasta":
+        event = EventsLucky.query.filter_by(event_name=n_event).first()
+    elif n_event == "alpha":
+        event = EventsLucky.query.filter_by(event_name=n_event).first()
+    elif n_event == "product":
+        event = EventsLucky.query.filter_by(event_name=n_event).first()
+    else:
+        return jsonify({"success": False})
+    # /* DONE */
+    return jsonify({"success": True, "event_time": ctime(event.event_end),
+                    "title_event": titleEventTime(event.event_start, event.event_end)[0]})
 
 
 # /* API REQUEST: TEXT/HTML */
 @mainApp.route("/eventhtml", methods=['POST'])
 def eventData():
     tmp: str = ""
-    if request.cookies.get("anonymous") and request.cookies.get("for_event") and session.get('player'):
+    if request.cookies.get("anonymous") and request.cookies.get("for_event"):  # session.get('player'):
         if request.form.get("type") == '1':
             tmp = ""
         elif request.form.get("type") == '2':
@@ -183,9 +185,10 @@ if __name__ == "__main__":  # // localdick!
     with mainApp.app_context():
         DBase.create_all()
         # /* CONFIGURATion at a first time */
-        if not EventsLucky.query.all():
+        if not EventsLucky.query.first():
             appendEvent(event_name="rasta", event_start=time(), event_end=time() + EManager.rasta_time)
             appendEvent(event_name="alpha", event_start=time(), event_end=time() + EManager.alpha_time)
             appendEvent(event_name="product", event_start=time(), event_end=time() + EManager.product_time)
+            print("* append Events: (first config)")
 
     mainApp.run(host="0.0.0.0", port=80, debug=True)
