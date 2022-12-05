@@ -272,6 +272,7 @@
   font-weight: 400;
   color: #01273f;
   font-family: 'DynaPuff' !important;
+
   text-shadow: 4px 2px 4px rgb(140, 132, 174);
 }
 
@@ -279,6 +280,61 @@
   display: flex;
   justify-content:space-around;
   flex-direction: row;
+  background: rgba(241, 251, 255, 0.301);
+  box-shadow:  0 0 10px 10px rgba(241, 251, 255, 0.301);
+  height: auto;
+  width: 50%;
+  margin: auto;
+}
+
+.head-cal-body > p{
+  font-size: 20px;
+  font-weight:700;
+  padding-bottom: 6px;
+}
+
+@-webkit-keyframes overshadow {
+  0% {
+      -webkit-box-shadow: 0 0 0 0 #4d83ef;box-shadow:0 0 0 0 #9fef00;
+
+  }
+  70%{
+      -webkit-box-shadow: 0 0 0 17px transparent;box-shadow: 0 0 0 17px transparent
+  }
+  to {
+      -webkit-box-shadow: 0 0 0 0 transparent;
+      box-shadow: 0 0 0 0 transparent
+  }
+}
+@keyframes overshadow {
+  0%{
+      -webkit-box-shadow: 0 0 0 0 #f9fbff;box-shadow:0 0 0 0 #f9fbff;
+
+      
+  }
+  70%{
+      -webkit-box-shadow: 0 0 0 17px transparent;box-shadow: 0 0 0 17px transparent;
+
+  }
+  to {
+      -webkit-box-shadow: 0 0 0 0 transparent;
+      box-shadow: 0 0 0 0 transparent
+  }
+}
+
+.radius-float{
+  padding-right: 9px;
+  display: inline;
+  border-radius: 50%;
+  background: #245660;
+  font-size: 10px;
+  color: #245660 !important;
+  margin-left: 12px;
+  animation: overshadow 2.8s infinite;
+  -webkit-animation: overshadow 2.8s infinite;
+  box-shadow: 0px 0px 10px 5px rgb(0,0,0);
+  -webkit-box-shadow:0px 0px 10px 5px rgb(0,0,0);
+  -moz-box-shadow:0px 0px 10px 5px rgba(0,0,0);
 }
 
 .cal{

@@ -5,9 +5,10 @@ FILE_NAME_DB: str = "AppLucky.db"
 SESSION: dict = {}
 SESSION_ANON: callable = lambda: binascii.b2a_hex(os.urandom(12)).decode()
 DES_EVENT_CLOSED = "האירוע {en} נסגר!\n ב {eo} האירוע ייפתח שוב"
+DEFAULT_PRICE: float = 14.90
 HEADERS = {
     "AppLucky": "IKWAYDoing",
-    "Server": "\0x0\0x0\0x0"
+    "Server": "\0x00\0x00\0x00"
 }
 
 

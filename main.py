@@ -62,6 +62,7 @@ class EventsLucky(DBase.Model):
     event_end = DBase.Column(DBase.Float, nullable=False)
     open = DBase.Column(DBase.Boolean, unique=False, default=True)
     will_open = DBase.Column(DBase.Float, nullable=True, default=time())
+    event_price = DBase.Column(DBase.Float, nullable=True, default=DEFAULT_PRICE)
 
     def __repr__(self):
         return "<Event %r>" % self.event_id
@@ -157,9 +158,16 @@ def Index():
 
 @mainApp.route("/rasta", methods=["GET"])
 def Rasta():
+    # /* verify request user */
     if not request.cookies.get('anonymous'): return redirect(url_for("Index"))
+    # /* verify request user is login or nope */
     register = session.get('player') and not request.cookies.get("anonymous")
-    res = make_response(render_template('rasta.html', event="rasta", register=register))
+
+    # /* select from db the price of event */
+    event = EventsLucky.query.filter_by(event_name='rasta').first()
+    print(event.event_price)
+    # /* make response: DONE */
+    res = make_response(render_template('rasta.html', event="rasta", register=register, event_price=event.event_price))
     res.set_cookie(key='for_event', value='resta', httponly=True)
     return res
 
