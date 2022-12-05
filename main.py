@@ -165,7 +165,6 @@ def Rasta():
 
     # /* select from db the price of event */
     event = EventsLucky.query.filter_by(event_name='rasta').first()
-    print(event.event_price)
     # /* make response: DONE */
     res = make_response(render_template('rasta.html', event="rasta", register=register, event_price=event.event_price))
     res.set_cookie(key='for_event', value='resta', httponly=True)
