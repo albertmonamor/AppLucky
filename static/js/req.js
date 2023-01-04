@@ -177,3 +177,26 @@ function unloading(_this, text){
     _this.appendChild(span);
 }
 
+function end_register(_this, type_pay){
+    text = _this.innerText;
+    loading(_this);
+    $.ajax({
+        url:'/register_event',
+        type:"POST",
+        data:{
+            "accept":$('#policy')[0].checked,
+            "type_pay":type_pay,
+            "lvl":2
+        },
+        success:function(res){
+            if (res.success){
+                document.location = res.location;
+            }
+            else{
+                alert(res.des)
+                unloading(_this, text);
+            }
+        }
+
+    })
+}

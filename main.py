@@ -1,7 +1,4 @@
 import http
-import time
-from typing import TextIO
-
 from flask import *
 from time import ctime, sleep, time
 from flask_sqlalchemy import SQLAlchemy
@@ -107,6 +104,8 @@ def TimerEvent():
 @mainApp.route("/eventhtml", methods=['POST'])
 def eventData():
     tmp: str = ""
+    # /* may kwargs will be empty */
+    kwargs: dict = {}
     if request.cookies.get("anonymous") and request.cookies.get("for_event"):  # session.get('player'):
         if request.form.get("type") == '1':
             tmp = ""
@@ -114,11 +113,14 @@ def eventData():
             tmp = "ltmp/event_registerL1.html"
         elif request.form.get("type") == '3':
             tmp = "ltmp/event_registerL2.html"
+            # /* get price of event
+            event_price = EventsLucky.query.filter_by(event_name=request.cookies['for_event']).first().event_price
+            kwargs.update(event=request.cookies.get('for_event'), event_price=event_price)
 
         else:
             return render_template_string("<h1>none</h1>")
 
-        return render_template(tmp, event=request.cookies.get('for_event'))
+        return render_template(tmp, **kwargs)
 
 
 # /* API REQUEST: JSON */
@@ -131,14 +133,26 @@ def RegisterEvent():
         phone: str = request.form.get('phone')
         _id: str = request.form.get("id")
         # /* verify */
-        if 0 - 12 % 5 == 2:
-            # not (name and phone and _id) or not (name.__len__() > 6 and phone.__len__() == 10 and idValid(_id)):
+        if not (name and phone and _id) or not (name.__len__() > 6 and phone.__len__() == 10 and idValid(_id)):
             return jsonify({"success": False})
     elif lvl == "2":
-        pass
+        location = ""  # same page (reload)
+        verify_policy = request.form.get('accept')
+        type_pay = request.form.get('type_pay')
+        print(type_pay, verify_policy)
+        if verify_policy == "true":
+            if type_pay == "1":
+                # /* BIT */
+                location = "https://www.bitpay.co.il/he"
+            elif type_pay == "2":
+                # /* FREE CREDIT */
+                location = "https://www.google.com"
+            return jsonify({'success': True, "location":location})
+        else:
+            return jsonify({"success":False, "des": "הבקשה נכשלה"})
     else:
         # /* wtf with the request */
-        return jsonify({"success": False})
+        return jsonify({"success": False, "des": "הבקשה נכשלה"})
 
     # TODO: save on db, create session
     # /* success */
@@ -167,7 +181,7 @@ def Rasta():
     event = EventsLucky.query.filter_by(event_name='rasta').first()
     # /* make response: DONE */
     res = make_response(render_template('rasta.html', event="rasta", register=register, event_price=event.event_price))
-    res.set_cookie(key='for_event', value='resta', httponly=True)
+    res.set_cookie(key='for_event', value='rasta', httponly=True)
     return res
 
 
@@ -198,4 +212,4 @@ if __name__ == "__main__":  # // localdick!
             appendEvent(event_name="product", event_start=time(), event_end=time() + EManager.product_time)
             print("* append Events: (first config)")
 
-    mainApp.run(host="0.0.0.0", port=80, debug=True)
+    mainApp.run(host="0.0.0.0", port=43556, debug=True)

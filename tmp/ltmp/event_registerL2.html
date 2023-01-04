@@ -1,13 +1,16 @@
 <span>רישום ותשלום</span>
 <div class="register-body-row">
-    <span>תשלום עבור אירוע {{ event }}</span>
+    <span id="title">  עבור אירוע • {{ event }}</span>
+    <h1 class="register-price">{{event_price}}0₪</h1>
+    <br><br>
 </div>
-<div class="register-body-row">
-    <input type="checkbox" placeholder="ת.ז" class="checkbox">
-    <span>אני מאשר את התנאים, וגילי מעל 18</span><br>
-</div>
-<div class="register-body-row">
-    <button type="submit" class="abutton" onclick="alert(this)">
-    <span>המשך</span>
+<div class="register-end">
+    <br><br>
+    <input type="checkbox" class="checkbox" id="policy"><span class=""> אני מאשר את תנאי האתר</span><br><br>
+    <button class="abutton" type="button" onclick="end_register(this, 1)">
+        <span>תשלום בביט</span>
+    </button>
+    <button class="abutton" type="button" id="credit" onclick="end_register(this, 2)">
+        <span>תשלום באשראי</span>
     </button>
 </div>
